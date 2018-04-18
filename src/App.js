@@ -1,56 +1,23 @@
 import React, { Component} from 'react';
-import logo from './logo.svg';
-import './App.css';
-import User from './User';
+
+//Material-ui
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
-import { Drawer } from 'material-ui';
+
+//Components
+import Header from './components/Header';
+import Body from './components/Body';
 
 
 class App extends Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            "open": false,
-          };
+  render() {
+    return(
+      <MuiThemeProvider>
+        <Header />
+        <Body/>
+      </MuiThemeProvider>
+      )
     }
-       handleToggle = () => this.setState({open: !this.state.open});
+  }
 
-    render() {
-        return(
-          <MuiThemeProvider>
-          <AppBar
-          title="Material-ui"
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
-          onLeftIconButtonClick = {this.handleToggle}
-          />
-
-        <Drawer
-          open = {this.state.open}
-          oneRequestChange = {(open)=> this.setState({open})}>
-          <AppBar title = "AppBar"
-          onLeftIconButtonClick = {this.handleToggle}
-            />
-          </Drawer>
-
-            <div className = "App">
-            <header calssName = "App-header">
-            <img src = {logo} calssName = "App=logo" alt = "logo" />
-            <h1 className = "App-title"> Welcome to React</h1>
-            </header>
-            <p className = "App-intro">
-              To get started, edit <code>src/App.js</code> and save to reload.
-            </p>
-            //New Component
-            <User firtName = {firstName} lastName = {lastName}/>
-
-            </div>
-          </MuiThemeProvider>
-            
-        );
-      }
-    }
-  const firstName = "Samreen";
-  const lastName = "Malla";
 
 export default App;
