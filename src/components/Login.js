@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-
+import logo from '../assets/logo-blue.svg';
 //Components of Material-UI
 import TextField from 'material-ui/TextField';
-import { blue500 } from 'material-ui/styles/colors';
+import { blue500, blue700 } from 'material-ui/styles/colors';
 import RaisedButton from 'material-ui/RaisedButton';
-//import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import { Card,CardHeader } from 'material-ui/Card';
+
+//Services
+import RebrandlyApi from '../services/rebrandlyApi';
+
+
 
 const style={
-	 margin: 12
+   margin: 12
 }
 
 const floatingLabelStyle={
@@ -18,7 +23,21 @@ const floatingLabelFocusStyle={
     color: blue500
 }
 
+const titleColor = {
+    titleColor: blue500
+}
+
 class Login extends Component{
+  alignCenter = {
+    height: "500px",          
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+
+  cardWidth = {
+    widht: "1200px"
+  }
   constructor(props){
     super(props)
 
@@ -29,8 +48,14 @@ class Login extends Component{
   }
 render(){
 	return(
-		<div>
-		 <TextField
+		<div style = { this.alignCenter } >
+    <Card style = { this.cardWidth } >
+    <CardHeader
+    title = "Rebrandly"
+    titleStyle={{ 'fontSize':'30px', 'fontWeight':'medium' }}
+      titleColor={ blue700 }
+    />
+		 <TextField  
       type = "text"
       floatingLabelText="Email"
       floatingLabelStyle={ floatingLabelStyle }
@@ -48,8 +73,9 @@ render(){
     />
     <br />
     <br />
-       <RaisedButton label="SUBMIT" primary={true} style={style} 
+       <RaisedButton label="SUBMIT" primary={true} style={style}
        onClick = {(e) => this.onSubmit(e)} />
+    </Card>
 		</div>
 
 		)
@@ -63,32 +89,56 @@ render(){
    }  
 
 onSubmit() {
-  fetch('https://api.rebrandly.com/v1/account',
-  {
-    headers: {
-      apikey: this.state.apikey
+
+  this.getAccountDetail(this.state.apikey)
+  .then(account => {
+    if (account.email === this.state.email) {
+      sessionStorage.setItem('apikey', this.state.apikey)
+      sessionStorage.setItem('email',this.state.email)
+      this.props.history.push('/board')
+    }
+    else{
+      alert('Credentials did not match')
     }
   })
-  .then(response => {
-    if(response.ok){
-    response.json()
-    .then(data => 
-      { console.log(data)
-    if(data.email === this.state.email) {
-    console.log("Right User")
-    }
-  else {
-    alert("Not Authorized user")
-  }
-
+  .catch(error => {
+    alert(error.message)
   })
 }
+  // fetch('https://api.rebrandly.com/v1/account',
+  // {
+  //   headers: {
+  //     apikey: this.state.apikey
+  //   }
+  // })
+  // .then(response => {
+  //   if(response.ok){
+  //   response.json()
+  //   .then(data => 
+  //     { console.log(data)
+  //   if(data.email === this.state.email) {
+  //   console.log("Right User")
+  //   }
+  // else {
+  //   alert("Not Authorized user")
+  // }
+getAccountDetail(apikey){
+  return RebrandlyApi.get('/account', {headers: {apikey: apikey}})
+}
 
-else {
-  alert (response.statusText)
+componentWillMount() {
+  const apikeySession = sessionStorage.getItem('apikey')
+  if(apikeySession) {
+    this.getAccountDetail(apikeySession)
+    .then(account => {
+      if(account) {
+        this.props.history.push('/board')
+      }
+    })
+    .catch(error => {
+      sessionStorage.removeItem('apikey')
+    })
   }
-})
 }
 }
-
 export default Login;

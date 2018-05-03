@@ -6,6 +6,10 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 
+
+//Components
+import AccountIcon from './AccountIcon';
+
 class Header extends Component {
 	constructor(props) {
 		super(props)
@@ -18,6 +22,7 @@ class Header extends Component {
 
 			<div>
 			<AppBar title= "Material-UI" 
+			iconElementRight= { <AccountIcon email= { this.state.email } /> }
 			onLeftIconButtonClick= {() => this.toggleSideBar()}
 			/>
 			<Drawer 
@@ -35,6 +40,12 @@ class Header extends Component {
 
 	toggleSideBar(){
 		this.setState ({sideBarOpen: !this.state.sideBarOpen})
+	}
+
+	componentWillMount() {
+		this.setState( {
+			email: sessionStorage.getItem('email')
+		})
 	}
 
 }

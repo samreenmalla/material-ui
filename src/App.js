@@ -1,22 +1,29 @@
 import React, { Component} from 'react';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
-//Material-ui
+//Material-ui components
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 //Components
 import Header from './components/Header';
-import Body from './components/Body';
+//import Body from './components/Body';
 import Login from './components/Login';
-
+import AdminBoard from './components/AdminBoard';
 
 class App extends Component {
   render() {
     return(
       <MuiThemeProvider>
-        <Login/>
+      <BrowserRouter>
+      <Switch>
+      <Route path = "/login" component = { Login } />
+      <Route path = "/board" component = { AdminBoard }/>
+      <Route exact path = "/" render = {() => (<Redirect to = "/login" /> )}/>
+      </Switch>
+      </BrowserRouter>
       </MuiThemeProvider>
-      )
+      );
     }
   }
 
