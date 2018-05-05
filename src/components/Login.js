@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from '../assets/logo-blue.svg';
+//import logo from '../assets/logo-blue.svg';
 //Components of Material-UI
 import TextField from 'material-ui/TextField';
 import { blue500, blue700 } from 'material-ui/styles/colors';
