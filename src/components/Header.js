@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {BrowserRouter, Link } from 'react-router-dom';
 
 
 //Material-ui components
@@ -9,6 +10,9 @@ import MenuItem from 'material-ui/MenuItem';
 
 //Components
 import AccountIcon from './AccountIcon';
+import Body from './Body';
+
+
 
 class Header extends Component {
 	constructor(props) {
@@ -30,9 +34,10 @@ class Header extends Component {
 			docked={false}
 			onRequestChange = {
 				()=> this.toggleSideBar()}>
-			<MenuItem> AppBar </MenuItem>
-			<MenuItem> Drawer </MenuItem>
-			<MenuItem> Table </MenuItem>
+
+			<MenuItem><Link to= '/'> AppBar</Link></MenuItem>
+			<MenuItem><Link to = '/'> Drawer</Link></MenuItem>
+			<MenuItem><Link to= '/Body'> Table</Link></MenuItem>
 			</Drawer>
 			</div>
 		)

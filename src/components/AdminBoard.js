@@ -8,7 +8,7 @@ class AdminBoard extends Component {
 		return(
 			<div>
 			<Header />
-			This is Admin Panel.
+			This is Dashboard.
 			</div>
 		)
   }

@@ -125,7 +125,7 @@ onSubmit() {
 getAccountDetail(apikey){
   return RebrandlyApi.get('/account', {headers: {apikey: apikey}})
 }
-
+//must be executed before render to check if the components are already rendered or not
 componentWillMount() {
   const apikeySession = sessionStorage.getItem('apikey')
   if(apikeySession) {
