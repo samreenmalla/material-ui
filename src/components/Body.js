@@ -10,10 +10,13 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
+import Header from './Header';
+
 class Body extends Component{
 	render(){
 		return(
 	<div>
+  <Header/>
 	 <Table>
     <TableHeader 
     displaySelectAll= { false }>
