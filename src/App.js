@@ -12,6 +12,7 @@ import Login from './components/Login';
 import AdminBoard from './components/AdminBoard';
 import Body from './components/Body';
 import RebrandlyLink from './components/RebrandlyLink';
+import CreateRebrandlyLink from './components/CreateRebrandlyLink';
 
 class App extends Component {
   render() {
@@ -22,6 +23,7 @@ class App extends Component {
       <Route path = "/login" component = { Login } />
       <Route path = "/board" component = { RebrandlyLink}/>
       <Route path = "/body" component = { Body }/>
+      <Route path = "/links/new" component = { CreateRebrandlyLink }/>}
       <Route exact path = "/" render = {() => (<Redirect to = "/login" /> )}/>
       </Switch>
       </BrowserRouter>

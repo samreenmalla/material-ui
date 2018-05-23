@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { Card,CardHeader } from 'material-ui/Card';
 
 //Services
-import RebrandlyApi from '../services/rebrandlyApi';
+import RebrandlyApi from '../services/RebrandlyApi';
 
 
 
