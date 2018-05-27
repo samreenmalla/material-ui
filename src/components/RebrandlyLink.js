@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+//material-ui
 import Table from 'material-ui/Table';
-import { TableBody, TableRow, TableColumn } from 'material-ui';
-import Header from './Header';
+import { TableBody, TableRow, TableColumn, IconButton } from 'material-ui';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import EditIcon from 'material-ui/svg-icons/image/edit';
 import { TableHeader, TableHeaderColumn, TableRowColumn } from 'material-ui';
+
+//Components
+import Header from './Header';
+import RebrandlyApi from '../services/RebrandlyApi';
+
+//Actions
+import { selectLink } from '../actions/linkActions';
 
 class RebrandlyLink extends Component {
   constructor(props) {
@@ -27,44 +39,82 @@ class RebrandlyLink extends Component {
 
           <TableBody displayRowCheckbox = { false }>
             {
-              this.state.links.map((link) => {
+              this.props.lists.map((link) => {
                 return (
                   <TableRow key={link.id}>
                     <TableRowColumn> {link.title}</TableRowColumn>
                     <TableRowColumn> {link.destination} </TableRowColumn>
                     <TableRowColumn> {link.shortUrl}</TableRowColumn>
-                  </TableRow>
-                )
-              })
-            }
+                    <TableRowColumn>
+
+                      
+                    <IconButton
+                      onClick={() => {
+                        this.props.handleEditButtonClick(link)
+                        //this.props.history.push(`/links/${link.id}/edit`)
+                        }} >
+                        <EditIcon />
+                    </IconButton>
+
+                        
+                    <IconButton>
+                        onClick={() => this.deleteLink(link.id)} >
+                          <DeleteIcon />
+                      </IconButton>
+                  </TableRowColumn>
+             
+              </TableRow>
+            )
+          })
+        }
           </TableBody>
         </Table>
       </div>
-    );
+    )
   }
 
   componentWillMount() {
-    fetch('https://api.rebrandly.com/v1/links',
-      {
-        headers: {
-          apikey: sessionStorage.getItem('apikey')
-        }
-      })
-      .then(response => {
-        if (response.ok) {
-          response.json().then(data => {
-            this.setState({
-              links: data
-            })
-          })
-        }
-        else {
-          alert(response.statusText)
-        }
-
-      })
-
+    this.listLink()
   }
+
+  deleteLink(linkId) {
+    RebrandlyApi.delete(`/links/${linkId}`)
+    .then(response => {
+      this.listLink()
+    })
+    .catch(err => {
+      alert(err.message)
+    })
+  }
+
+  listLink() {
+    RebrandlyApi.get('/links')
+    .then(links => {
+      this.setState({
+        links: links
+      })
+    })
+}
 }
 
-export default RebrandlyLink;
+  function mapStateToProps(state){
+
+    return{
+      lists: state.linkReducers,
+      selectedLink: state.selectReducer
+
+    }
+  }
+
+  function mapDispatchToProps(dispatch){
+    return(
+      bindActionCreators({
+      handleEditButtonClick: selectLink
+     }, dispatch)
+    )
+  }
+
+  
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(RebrandlyLink);

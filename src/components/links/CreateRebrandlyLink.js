@@ -6,10 +6,10 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
 //components
-import Header from './Header';
+import Header from '../../components/Header';
 
 //services
-import RebrandlyApi from '../services/RebrandlyApi';
+import RebrandlyApi from '../../services/RebrandlyApi';
 
 class CreateRebrandlyLink extends Component {
   constructor(props) {
@@ -63,13 +63,13 @@ class CreateRebrandlyLink extends Component {
       title: this.state.title,
       destination: this.state.destination
     }
-
+  
     RebrandlyApi.post('/links', {body: data})
     .then (()=> {
-      this.props.history.push("/links")
+      this.props.history.push("/board")
     })
     .catch(err => {
-      (err.message)
+     alert(err.message)
     })
   }
 }

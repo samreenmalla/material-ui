@@ -38,7 +38,7 @@ class Header extends Component {
 			<MenuItem><Link to= '/'> AppBar</Link></MenuItem>
 			<MenuItem><Link to = '/'> Drawer</Link></MenuItem>
 			<MenuItem><Link to= '/body'> Table</Link></MenuItem>
-			<MenuItem><Link to = '/links'>New links</Link></MenuItem>
+			<MenuItem><Link to = '/links/new'>New links</Link></MenuItem>
 			</Drawer>
 			</div>
 		)
